@@ -1,5 +1,6 @@
 package com.example.machinelearning
 
+import android.Manifest.permission.CAMERA
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -10,15 +11,25 @@ import android.widget.Toast
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.EasyPermissions.hasPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
+    companion object {
+        const val PERMISSION_CAMERA_REQUEST_CODE = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         val button = findViewById<Button>(R.id.btnCamera)
 
+
         button.setOnClickListener {
+            requestPermissions()
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (intent.resolveActivity(packageManager) != null) {
                 startActivityForResult(intent, 0)
@@ -75,11 +86,47 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, resultText, Toast.LENGTH_LONG).show()
 
                 }
-            }.addOnFailureListener{e ->
+            }.addOnFailureListener { e ->
                 Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
 
             }
 
+
+    }
+
+    private fun hasPermissions() =
+        EasyPermissions.hasPermissions(
+            this,
+            CAMERA
+        )
+
+    private fun requestPermissions() {
+        EasyPermissions.requestPermissions(
+            this,
+            getString(R.string.request_msg),
+            PERMISSION_CAMERA_REQUEST_CODE,
+            CAMERA
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            SettingsDialog.Builder(this).build().show()
+        } else {
+            requestPermissions()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
 
     }
 
