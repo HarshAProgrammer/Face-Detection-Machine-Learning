@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
         val button = findViewById<Button>(R.id.btnCamera)
-        details = findViewById<TextView>(R.id.text)
+        details = findViewById<TextView>(R.id.textDescription)
 
 
         button.setOnClickListener {
@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                 var i = 1
                 for (face in faces) {
                     resultText = "No of Faces : $i " +
-                            "Smile Strength : ${face.smilingProbability?.times(100)}% " +
-                            "Left Eye Open : ${face.leftEyeOpenProbability?.times(100)}% " +
-                            "Right Eye Open : ${face.rightEyeOpenProbability?.times(100)}% "
+                            "\nSmile Strength : ${face.smilingProbability?.times(100)}% " +
+                            "\nLeft Eye Open : ${face.leftEyeOpenProbability?.times(100)}% " +
+                            "\nRight Eye Open : ${face.rightEyeOpenProbability?.times(100)}% "
 
                     i++
                 }
