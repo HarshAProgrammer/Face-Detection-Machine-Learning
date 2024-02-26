@@ -11,9 +11,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnCamera"
         android:text="Face Detection"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:text="Click on Face Detection Button to see your Pic Details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnCamera"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

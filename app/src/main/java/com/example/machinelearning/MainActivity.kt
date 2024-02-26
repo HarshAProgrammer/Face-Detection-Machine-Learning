@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     companion object {
         const val PERMISSION_CAMERA_REQUEST_CODE = 1
     }
+    lateinit var details:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
         val button = findViewById<Button>(R.id.btnCamera)
+        details = findViewById<TextView>(R.id.text)
 
 
         button.setOnClickListener {
@@ -80,15 +83,14 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
                     i++
                 }
                 if (faces == null) {
-                    Toast.makeText(this, "No face Detected", Toast.LENGTH_LONG).show()
+                    details.text = "No face Detected"
 
                 } else {
-                    Toast.makeText(this, resultText, Toast.LENGTH_LONG).show()
+                    details.text = resultText
 
                 }
             }.addOnFailureListener { e ->
-                Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
-
+                details.text = "Something Went Wrong"
             }
 
 
